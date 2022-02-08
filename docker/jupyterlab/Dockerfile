@@ -40,9 +40,18 @@ RUN pip3 install --upgrade pip && \
     pip3 install --upgrade kubeflow-kale && \
     jupyter labextension install kubeflow-kale-labextension
 
+RUN pip3 install --upgrade "numpy==1.16.4"
+RUN pip3 install --upgrade "pandas==0.25.1"
+RUN pip3 install --upgrade "scikit-learn==0.20.4" 
+
+
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
 USER jovyan
+
+COPY config.sh /etc/config.sh
+
+#ENTRYPOINT ["sh", "/etc/config.sh"]
 
 CMD ["sh", "-c", \
      "jupyter lab --notebook-dir=/home/jovyan --ip=0.0.0.0 --no-browser \
