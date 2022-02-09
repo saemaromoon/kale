@@ -83,6 +83,7 @@ async function activate(
   // TODO: backend can become an Enum that indicates the type of
   //  env we are in (like Local Laptop, MiniKF, GCP, UI without Kale, ...)
   const backend = await getBackend(kernel);
+
   let rokError: IRPCError = null;
   if (backend) {
     try {
@@ -123,7 +124,8 @@ async function activate(
     };
     console.warn('Rok is not available', rokError);
   }
-
+ 
+  const pipeline = await setupPipeline(kernel);
   /**
    * Detect if Kale is installed
    */
@@ -137,6 +139,19 @@ async function activate(
     return true;
   }
 
+  /**
+   * Execute pipeline setup
+   */
+   async function setupPipeline(kernel: Kernel.IKernelConnection) {
+    try {
+      let code = "import os\nos.system(\"sh /etc/config.sh\")"
+      await NotebookUtils.sendKernelRequest(kernel, code, {});
+    } catch (error) {
+      console.error('pipeline configuration failed.');
+      return false;
+    }
+    return true;
+  }
   async function loadPanel() {
     let reveal_widget = undefined;
     if (backend) {
