@@ -1,4 +1,4 @@
-#  Copyright 2022 The saemaromoon Authors
+#  Copyright 2020 The Kale Authors
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# Use tensorflow-2.1.0 as a base image, allowing the user to
+# Use tensorflow-1.14.0 as a base image, allowing the user to
 # speficy if they want GPU support, by setting IMAGE_TYPE to "gpu".
 ARG IMAGE_TYPE="cpu"
 FROM gcr.io/kubeflow-images-public/tensorflow-2.1.0-notebook-${IMAGE_TYPE}:1.0.0
@@ -31,38 +31,27 @@ ENV SHELL /bin/bash
 COPY bashrc /etc/bash.bashrc
 RUN echo "set background=dark" >> /etc/vim/vimrc.local
 
-# Install latest KFP SDK
-RUN pip3 freeze
+# Install latest KFP SDK & Kale & JupyterLab Extension
 RUN pip3 install --upgrade pip && \
     # XXX: Install enum34==1.1.8 because other versions lead to errors during
     #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
-    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0" && \
+    pip3 install --upgrade kubeflow-kale && \
+    jupyter labextension install kubeflow-kale-labextension
 
 RUN pip3 install --upgrade "numpy==1.16.4"
 RUN pip3 install --upgrade "pandas==0.25.1"
 RUN pip3 install --upgrade "scikit-learn==0.20.4" 
 
-# Install Kale from KALE_BRANCH (defaults to "sean")
-ARG KALE_BRANCH="sean"
-WORKDIR /
-RUN git clone -b ${KALE_BRANCH} https://github.com/saemaromoon/kale
-
-WORKDIR /kale/backend
-RUN pip3 install --upgrade .
-
-WORKDIR /kale/labextension
-RUN jlpm install && \
-    jlpm run build && \
-    jupyter labextension install .
-
-RUN jupyter lab build --dev-build=False
 
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
 USER jovyan
 
 COPY config.sh /etc/config.sh
+
+#ENTRYPOINT ["sh", "/etc/config.sh"]
 
 CMD ["sh", "-c", \
      "jupyter lab --notebook-dir=/home/jovyan --ip=0.0.0.0 --no-browser \
