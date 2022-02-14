@@ -27,8 +27,7 @@ RUN apt-get update && \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
-# Python   
-RUN add-apt-repository -y ppa:deadsnakes/ppa
+# Python    
 RUN apt-get update --fix-missing
 RUN apt-get -y install --fix-missing python3.7
 RUN apt-get -y install --fix-missing python3.7-dev
