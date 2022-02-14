@@ -27,6 +27,14 @@ RUN apt-get update && \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
+# Python   
+RUN add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt-get update --fix-missing
+RUN apt-get -y install --fix-missing python3.7
+RUN apt-get -y install --fix-missing python3.7-dev
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
+RUN update-alternatives --config python3 
+
 ENV SHELL /bin/bash
 COPY bashrc /etc/bash.bashrc
 RUN echo "set background=dark" >> /etc/vim/vimrc.local
