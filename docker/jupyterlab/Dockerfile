@@ -27,6 +27,7 @@ RUN apt-get update && \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <PUBKEY>
 RUN apt-get update
 RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
 RUN apt-get -y install python3-pip python3.7-dev
