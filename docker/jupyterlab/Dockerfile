@@ -51,6 +51,9 @@ RUN pip3 install --upgrade "numpy==1.16.4"
 RUN pip3 install --upgrade "pandas==0.25.1"
 RUN pip3 install --upgrade "scikit-learn==0.20.4" 
 
+# Install latest Ray 
+RUN pip3 install --upgrade "ray[default]==1.10.0"
+
 # Install Kale from KALE_BRANCH (defaults to "sean")
 ARG KALE_BRANCH="sean"
 WORKDIR /
