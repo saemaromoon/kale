@@ -27,10 +27,18 @@ RUN apt-get update && \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update
+RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
+RUN apt-get -y install python3-pip python3.7-dev
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update
+RUN apt-get -y install python3.7
+
 # Python    
 #RUN apt-get update --fix-missing
-RUN apt-get -y install --fix-missing python3.7
-RUN apt-get -y install --fix-missing python3.7-dev
+#RUN apt-get -y install --fix-missing python3.7
+#RUN apt-get -y install --fix-missing python3.7-dev
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
 RUN update-alternatives --config python3
 RUN python3 -m pip install pip --upgrade
