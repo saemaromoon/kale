@@ -64,6 +64,10 @@ RUN pip3 install --upgrade "scikit-learn==0.20.4"
 
 # Install latest Ray 
 RUN pip3 install --upgrade "ray[default]==1.10.0"
+RUN pip3 install "tqdm==4.62.3"
+RUN pip3 install --upgrade "pyarrow >= 4.0.1"
+RUN pip3 install --upgrade "matplotlib"
+
 
 # Install Kale from KALE_BRANCH (defaults to "sean")
 ARG KALE_BRANCH="sean"
