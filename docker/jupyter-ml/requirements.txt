@@ -1,6 +1,6 @@
 # kubeflow packages
-kfp==1.6.3
-kfp-server-api==1.6.0
+kfp==1.8.11
+kfp-server-api==1.7.1
 kfserving==0.5.1
 
 # scipy packages
@@ -16,7 +16,7 @@ h5py==3.2.1
 ipympl==0.7.0
 ipywidgets==7.6.3
 jupyterlab-git==0.30.1
-matplotlib==3.4.2
+#matplotlib==3.4.2
 numba==0.53.1
 numexpr==2.7.3
 pandas==1.2.4
@@ -32,3 +32,12 @@ sympy==1.8
 tables==3.6.1
 vincent==0.4.4
 xlrd==2.0.1
+
+numpy==1.16.4
+#pandas==0.25.1
+#scikit-learn==0.20.4
+
+ray[default]==1.10.0
+tqdm==4.62.3
+pyarrow == 7.0.0
+matplotlib == 3.5.1

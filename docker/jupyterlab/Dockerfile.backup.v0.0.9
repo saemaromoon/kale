@@ -14,7 +14,8 @@
 
 # Use tensorflow-2.1.0 as a base image, allowing the user to
 # speficy if they want GPU support, by setting IMAGE_TYPE to "gpu".
-FROM saemaromoon/jupyterbase:py37-ml-gpu
+ARG IMAGE_TYPE="cpu"
+FROM gcr.io/kubeflow-images-public/tensorflow-2.1.0-notebook-${IMAGE_TYPE}:1.0.0
 
 USER root
 
@@ -36,7 +37,11 @@ RUN apt-get -y install software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get -y install python3.7
- 
+
+# Python    
+#RUN apt-get update --fix-missing
+#RUN apt-get -y install --fix-missing python3.7
+#RUN apt-get -y install --fix-missing python3.7-dev
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
 RUN update-alternatives --config python3
 RUN python3 -m pip install pip --upgrade
@@ -50,7 +55,19 @@ RUN pip3 freeze
 RUN pip3 install --upgrade pip && \
     # XXX: Install enum34==1.1.8 because other versions lead to errors during
     #  KFP installation
-    pip3 install --upgrade "enum34==1.1.8" && \  
+    pip3 install --upgrade "enum34==1.1.8" && \
+    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+
+RUN pip3 install --upgrade "numpy==1.16.4"
+RUN pip3 install --upgrade "pandas==0.25.1"
+RUN pip3 install --upgrade "scikit-learn==0.20.4" 
+
+# Install latest Ray 
+RUN pip3 install --upgrade "ray[default]==1.10.0"
+RUN pip3 install "tqdm==4.62.3"
+RUN pip3 install --upgrade "pyarrow >= 4.0.1"
+RUN pip3 install --upgrade "matplotlib"
+
 
 # Install Kale from KALE_BRANCH (defaults to "sean")
 ARG KALE_BRANCH="sean"
