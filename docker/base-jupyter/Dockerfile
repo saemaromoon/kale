@@ -1,4 +1,4 @@
-FROM saemaromoon/jupyterbase:ubuntu20
+FROM saemaromoon/jupyterbase:ubuntu18
 
 USER root
 
