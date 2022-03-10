@@ -1,7 +1,7 @@
 NS=$(kubectl describe serviceaccount default | grep Namespace | sed "s/ //g"| sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["Namespace"])}' 2>&1)
 TOKEN=$(kubectl describe serviceaccount default | grep Tokens | sed "s/ //g"| sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["Tokens"])}' 2>&1)
-VALUE=$(kubectl describe secret ${TOEKN} | grep token: | sed "s/ //g" | sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["token"])}' 2>&1)
-OWNER=$(kubectl get ns adminuser -o yaml | grep owner: | sed -n 1p | sed "s/ //g"| sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["owner"])}' 2>&1)
+VALUE=$(kubectl describe secret ${TOKEN} | grep token: | sed "s/ //g" | sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["token"])}' 2>&1)
+OWNER=$(kubectl get ns ${NS} -o yaml | grep owner: | sed -n 1p | sed "s/ //g"| sed -r 's/[:]+/=/g'| awk -F= '{a[$1]=$2} END {print(a["owner"])}' 2>&1)
 
 sudo mkdir -p /var/run/secrets/kubeflow/pipelines
 
@@ -19,7 +19,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: add-header-$NOTEBOOK
+  name: add-header-$NS-$NOTEBOOK
   namespace: $NS
 spec:
   configPatches:

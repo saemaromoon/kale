@@ -66,7 +66,8 @@ RUN pip3 install --upgrade "scikit-learn==0.20.4"
 RUN pip3 install --upgrade "ray[default]==1.10.0"
 RUN pip3 install "tqdm==4.62.3"
 RUN pip3 install --upgrade "pyarrow >= 4.0.1"
-RUN pip3 install --upgrade "matplotlib"
+RUN pip3 install --upgrade "matplotlib" 
+RUN pip3 install --upgrade "tblib"
 
 RUN pip3 install --upgrade "tensorflow-gpu"
 
