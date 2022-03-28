@@ -43,21 +43,4 @@ spec:
     labels:
       notebook-name: $NOTEBOOK #your notebook
 EOF
-echo "Applied Envoy Filter"
-
-cat <<EOF | kubectl apply -f -
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: bind-ml-pipeline-$NOTEBOOK-$NS
- namespace: kubeflow
-spec:
- selector:
-   matchLabels:
-     app: ml-pipeline
- rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/$NS/sa/default-editor"]
-EOF
-echo "Applied AuthorizationPolicy"
+echo "Applied Envoy Filter" 

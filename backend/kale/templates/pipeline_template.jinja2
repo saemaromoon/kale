@@ -152,6 +152,10 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
         backoff_max_duration={{ step.config.retry_max_interval|quote_if_not_none }})
     {%- endif %}
     _kale_{{ step.name }}_task.container.working_dir = "{{ abs_working_dir }}"
+    
+    {# Limit cache period #}
+    _kale_{{ step.name }}_task.execution_options.caching_strategy.max_cache_staleness = "P1D"
+
     _kale_{{ step.name }}_task.container.set_security_context(k8s_client.V1SecurityContext(run_as_user=0))
     _kale_output_artifacts = {}
     {%- if autosnapshot %}
@@ -171,7 +175,11 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
     {%- endfor %}
     {%- endif %}
     _kale_{{ step.name }}_task.output_artifact_paths.update(_kale_output_artifacts)
+
+    {# Block this line. This makes lose artifact meta
     _kale_{{ step.name }}_task.add_pod_label("pipelines.kubeflow.org/metadata_written", "true")
+    #}
+
     _kale_dep_names = (_kale_{{ step.name }}_task.dependent_names +
                        _kale_volume_step_names)
     _kale_{{ step.name }}_task.add_pod_annotation(

@@ -57,19 +57,31 @@ RUN pip3 install --upgrade pip && \
     #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
     pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
-
-RUN pip3 install --upgrade "numpy==1.16.4"
-RUN pip3 install --upgrade "pandas==0.25.1"
-RUN pip3 install --upgrade "scikit-learn==0.20.4" 
-
+ 
 # Install latest Ray 
 RUN pip3 install --upgrade "ray[default]==1.10.0"
-RUN pip3 install "tqdm==4.62.3"
-RUN pip3 install --upgrade "pyarrow >= 4.0.1"
-RUN pip3 install --upgrade "matplotlib" 
+RUN pip3 install "tqdm==4.62.3" 
 RUN pip3 install --upgrade "tblib"
 
 RUN pip3 install --upgrade "tensorflow-gpu"
+# to-fix 'Coroutine' object is not subscriptable error
+RUN pip3 install --upgrade "jupyter-client==5.3.4" 
+
+# Pip packages 
+RUN pip3 install --upgrade "matplotlib==3.5.1" 
+RUN pip3 install --upgrade "seaborn==0.11.2" 
+
+RUN pip3 install --upgrade "numpy==1.21.5"
+RUN pip3 install --upgrade "pandas==1.3.5"
+RUN pip3 install --upgrade "scikit-learn==1.0.2" 
+RUN pip3 install --upgrade "pyarrow==7.0.0"
+RUN pip3 install --upgrade "xgboost==1.5.2"
+RUN pip3 install --upgrade "statsmodels==0.13.2"
+ 
+RUN pip3 install --upgrade --user awscli==1.22.3
+RUN pip3 install s3fs==2022.01.0
+
+ARG DISABLE_CACHE
 
 # Install Kale from KALE_BRANCH (defaults to "sean")
 ARG KALE_BRANCH="sean"
