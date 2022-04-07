@@ -120,8 +120,8 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
     _kale_volume_name_parameters.append(_kale_marshal_vop.outputs["name"].full_name)
     _kale_pvolumes_dict['{{ marshal_path }}'] = _kale_marshal_vop.volume
     
-    {# Limit cache period #}
-    _kale_marshal_vop.execution_options.caching_strategy.max_cache_staleness = "P0D"
+    {# Turn off caching #}
+    _kale_marshal_vop.enable_caching = False
     {% endif %}
 
     _kale_volume_step_names.sort()
