@@ -108,7 +108,7 @@ class PipelineConfig(Config):
     autosnapshot = Field(type=bool, default=True)
     steps_defaults = Field(type=dict, default=dict())
     kfp_host = Field(type=str)
-    storage_class_name = Field(type=str,
+    storage_class_name = Field(type=str, default="efs-sc",
                                validators=[validators.K8sNameValidator])
     volume_access_mode = Field(
         type=str, validators=[validators.IsLowerValidator,
