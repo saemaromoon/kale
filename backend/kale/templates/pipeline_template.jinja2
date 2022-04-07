@@ -114,11 +114,14 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
         {%- if pipeline.config.storage_class_name %}
         storage_class="{{ pipeline.config.storage_class_name }}",
         {%- endif %}
-        size="1Gi"
+        size="10Gi"
     )
     _kale_volume_step_names.append(_kale_marshal_vop.name)
     _kale_volume_name_parameters.append(_kale_marshal_vop.outputs["name"].full_name)
     _kale_pvolumes_dict['{{ marshal_path }}'] = _kale_marshal_vop.volume
+    
+    {# Limit cache period #}
+    _kale_{{ step.name }}_task.execution_options.caching_strategy.max_cache_staleness = "P0D"
     {% endif %}
 
     _kale_volume_step_names.sort()
