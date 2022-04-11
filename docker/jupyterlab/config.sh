@@ -44,3 +44,15 @@ spec:
       notebook-name: $NOTEBOOK #your notebook
 EOF
 echo "Applied Envoy Filter" 
+
+DIR="/home/jovyan/kale"
+if [ -d "$DIR" ]; then
+   echo "'$DIR' found. Do nothing..."
+else
+   echo "'$DIR' NOT found."
+   mkdir $DIR
+   wget https://raw.githubusercontent.com/saemaromoon/kale/sean/examples/base/candies_sharing.ipynb -O $DIR/candies_sharing.ipynb
+   wget https://raw.githubusercontent.com/saemaromoon/kale/sean/examples/batch-inference/loyalty_inference.ipynb -O $DIR/loyalty_inference.ipynb
+   wget https://raw.githubusercontent.com/saemaromoon/kale/sean/examples/openvaccine-kaggle-competition/open-vaccine.ipynb -O $DIR/open-vaccine.ipynb
+   wget https://raw.githubusercontent.com/saemaromoon/kale/sean/examples/titanic-ml-dataset/titanic_dataset_ml.ipynb -O $DIR/titanic_dataset_ml.ipynb
+fi
