@@ -5,6 +5,7 @@ import kfp.components as _kfp_components
 
 from collections import OrderedDict
 from kubernetes import client as k8s_client
+from kubernetes.client import V1Toleration, V1Affinity, V1NodeSelector, V1NodeSelectorRequirement, V1NodeSelectorTerm, V1NodeAffinity
 
 {# PIPELINE LIGHTWEIGHT COMPONENTS #}
 {% for func in lightweight_components -%}
@@ -160,11 +161,13 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
     _kale_{{ step.name }}_task.execution_options.caching_strategy.max_cache_staleness = "P1D"
     {# Set node affinity #}
     affinity = V1Affinity(
-    node_affinity=V1NodeAffinity(
-      required_during_scheduling_ignored_during_execution=V1NodeSelector(
-        node_selector_terms=[V1NodeSelectorTerm(
-          match_expressions=[V1NodeSelectorRequirement(
-            key='alpha.eksctl.io/nodegroup-name', operator='In', values=['ng-memory-5-spark', 'ng-nvidia-gpu'])])])))
+        node_affinity=V1NodeAffinity(
+            required_during_scheduling_ignored_during_execution=V1NodeSelector(
+                node_selector_terms=[V1NodeSelectorTerm(
+                    match_expressions=[V1NodeSelectorRequirement(
+                        key='alpha.eksctl.io/nodegroup-name',
+                        operator='In', 
+                        values=['ng-memory-5-spark', 'ng-nvidia-gpu'])])])))
     _kale_{{ step.name }}_task.add_affinity(affinity)
 
     _kale_{{ step.name }}_task.container.set_security_context(k8s_client.V1SecurityContext(run_as_user=0))
