@@ -23,7 +23,8 @@ USER root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates bash-completion tar less \
-        python-pip python-setuptools build-essential python-dev \
+#        python-pip python-setuptools build-essential python-dev \
+        python-setuptools build-essential python-dev \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
