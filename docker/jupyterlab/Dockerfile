@@ -14,9 +14,9 @@
 
 # Use tensorflow-2.1.0 as a base image, allowing the user to
 # speficy if they want GPU support, by setting IMAGE_TYPE to "gpu".
-ARG IMAGE_TYPE="gpu"
-FROM gcr.io/kubeflow-images-public/tensorflow-2.1.0-notebook-${IMAGE_TYPE}:1.0.0
-
+#ARG IMAGE_TYPE="gpu"
+#FROM gcr.io/kubeflow-images-public/tensorflow-2.1.0-notebook-${IMAGE_TYPE}:1.0.0
+FROM public.ecr.aws/c9e4w0g3/notebook-servers/jupyter-tensorflow:2.6.0-gpu-py38-cu112
 USER root
 
 # Install basic dependencies
@@ -32,17 +32,18 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B57C5C2836F4BEB
 
 RUN apt-get update
 RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
-RUN apt-get -y install python3-pip python3.7-dev
+#RUN apt-get -y install python3-pip python3.7-dev
+RUN apt-get -y install python3-pip
 RUN apt-get -y install software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
-RUN apt-get -y install python3.7
+#RUN apt-get -y install python3.7
 
 # Python    
 #RUN apt-get update --fix-missing
 #RUN apt-get -y install --fix-missing python3.7
 #RUN apt-get -y install --fix-missing python3.7-dev
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
+#RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
 RUN update-alternatives --config python3
 RUN python3 -m pip install pip --upgrade
 
