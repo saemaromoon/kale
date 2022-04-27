@@ -45,7 +45,7 @@ RUN apt-get update
 #RUN apt-get -y install --fix-missing python3.7
 #RUN apt-get -y install --fix-missing python3.7-dev
 #RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 
-RUN update-alternatives --config python3
+#RUN update-alternatives --config python3
 RUN python3 -m pip install pip --upgrade
 
 ENV SHELL /bin/bash
