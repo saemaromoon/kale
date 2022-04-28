@@ -59,15 +59,20 @@ RUN pip3 install --upgrade pip && \
     #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
     pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+RUN pip3 install --upgrade "kfp==1.8.2" 
  
 # Install latest Ray 
-RUN pip3 install --upgrade "ray[default]==1.10.0"
-RUN pip3 install "tqdm==4.62.3" 
-RUN pip3 install --upgrade "tblib"
+# RUN pip3 install --upgrade "ray[default]==1.10.0"
+# RUN pip3 install "tqdm==4.62.3" 
+# RUN pip3 install --upgrade "tblib"
 
-RUN pip3 install --upgrade "tensorflow-gpu"
+#RUN pip3 install --upgrade "tensorflow-gpu"
 # to-fix 'Coroutine' object is not subscriptable error
-RUN pip3 install --upgrade "jupyter-client==5.3.4" 
+#RUN pip3 install --upgrade "jupyter-client==5.3.4" 
+# RUN pip3 install --upgrade "ipympl==0.7.0"
+# RUN pip3 install --upgrade "ipywidgets==7.6.3"
+# RUN pip3 install --upgrade "jupyterlab-git==0.30.1"
+# RUN pip3 install --upgrade "nbdime==0.30.1"
 
 # Pip packages 
 RUN pip3 install --upgrade "matplotlib==3.5.1" 
