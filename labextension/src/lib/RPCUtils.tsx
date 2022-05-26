@@ -84,7 +84,10 @@ export const rokErrorTooltip = (rokError: IRPCError) => {
   );
 };
 
-const serialize = (obj: any) => window.btoa(JSON.stringify(obj));
+// const serialize = (obj: any) => window.btoa(JSON.stringify(obj));
+// for non-unicode characters include Korean
+const serialize = (obj: any) => window.btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+
 const deserialize = (raw_data: string) =>
   window.atob(raw_data.substring(1, raw_data.length - 1));
 
