@@ -23,6 +23,7 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86
 RUN  dpkg -i cuda-keyring_1.0-1_all.deb
 RUN sed -i '/developer\.download\.nvidia\.com\/compute\/cuda\/repos/d' /etc/apt/sources.list
 RUN rm /etc/apt/sources.list.d/cuda*.list
+RUN rm nvidia-ml.list
   
 # Install basic dependencies
 RUN apt-get update && \
