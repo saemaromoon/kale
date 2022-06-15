@@ -76,8 +76,7 @@ RUN pip3 install s3fs==2022.01.0
 RUN pip3 install --upgrade "collection==0.1.6"
 RUN pip3 install --upgrade "JPype1==1.3.0"
 RUN pip3 install --upgrade "konlpy==0.6.0"
-RUN pip3 install --upgrade "tqdm==4.62.3"
-RUN pip3 install --upgrade "mecab-python===0.996-ko-0.9.2"
+RUN pip3 install --upgrade "tqdm==4.62.3" 
 
 ARG DISABLE_CACHE
  
