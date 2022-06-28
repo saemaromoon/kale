@@ -268,7 +268,14 @@ def run_code(source: tuple, kernel_name='python3'):
     # cwd: If supplied, the kernel will run in this directory
     # resources['metadata'] = {'path': cwd}
     ep = ExecutePreprocessor(**jupyter_execute_kwargs)
-    km = ep.kernel_manager_class(kernel_name=kernel_name, config=ep.config)
+    
+    # nbconvert removed kernel manager class at version 6.5.0
+    # - PS: kale 0.7.0 used nbconvert 5.6.1
+    # import KernelManager Class from jupyter_client library directly
+    from jupyter_client import KernelManager
+    km = KernelManager()
+    #km = ep.kernel_manager_class(kernel_name=kernel_name, config=ep.config)
+
     # start_kernel supports several additional arguments via **kw
     km.start_kernel(extra_arguments=ep.extra_arguments)
     kc = km.client()
