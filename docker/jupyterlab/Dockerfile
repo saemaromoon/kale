@@ -55,7 +55,9 @@ RUN pip3 install --upgrade pip && \
     # XXX: Install enum34==1.1.8 because other versions lead to errors during
     #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
-    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+    #pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+    # Upgrade JupyterLab version to v3
+    pip3 install --upgrade "jupyterlab>=3.1.6,<4.0.0"
 RUN pip3 install --upgrade "kfp==1.8.2" 
    
 # Pip packages 
@@ -74,7 +76,7 @@ RUN pip3 install s3fs==2022.01.0
 
 # kale 빌드로 생긴 Pipeline 수행 시, coroutine 에러 발생
 # Bug in the Kale Jupyter Notebook Server Docker Image - Kale built pipeline execution fails · Issue #388 · kubeflow-kale/kale
-RUN pip3 install --upgrade "jupyter-client==5.3.4"
+# jupyter-client(5.3.4 -> 7.3.4), nbconvert(5.6.1 -> 6.5.0) 버전 변경 kale/backend/setup.py
 
 ## Konlpy, Mecab을 돌리기 위한 Pip packages 추가 (from Eden)
 RUN pip3 install --upgrade "collection==0.1.6"
