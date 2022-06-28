@@ -317,7 +317,7 @@ export abstract class BaseError extends Error {
     Object.setPrototypeOf(this, BaseError.prototype);
   }
 
-  public abstract async showDialog(refresh: boolean): Promise<void>;
+  public abstract showDialog(refresh: boolean): Promise<void>;
 }
 
 export class KernelError extends BaseError {
