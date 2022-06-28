@@ -84,8 +84,6 @@ RUN pip3 install --upgrade "JPype1==1.3.0"
 RUN pip3 install --upgrade "konlpy==0.6.0"
 RUN pip3 install --upgrade "tqdm==4.62.3" 
 
-ARG DISABLE_CACHE
- 
 # Install JVM for Konlpy
 RUN apt-get install -y \
     openjdk-8-jdk wget curl git python3-dev \
@@ -97,6 +95,8 @@ RUN locale-gen en_US.UTF-8 && \
 # Add Mecab-Ko
 RUN curl -L https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh | bash
 
+ARG DISABLE_CACHE
+ 
 # Install Kale from KALE_BRANCH (defaults to "sean")
 ARG KALE_BRANCH="sean"
 WORKDIR /
