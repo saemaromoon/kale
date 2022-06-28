@@ -61,7 +61,7 @@
     "typescript": "3.7.4"
   },
   "resolutions": {
-    "@types/react": "^16.9.0"
+    "@types/react": "17.0.1"
   },
   "publishConfig": {
     "access": "public"
