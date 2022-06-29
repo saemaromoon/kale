@@ -187,8 +187,7 @@ def process_outputs(cells):
 
 
 def capture_streams(kc, exit_on_error=False):
-    """Capture stream and error outputs from a kernel connection.
-
+    """Capture stream and error outputs from a kernel connection. 
     Get messages from the iopub channel of the `kc` kernel connection
     and write to stdout or stderr any message of type `stream`.
     Capture and exit when receiving an `error` message or when the message
@@ -269,19 +268,13 @@ def run_code(source: tuple, kernel_name='python3'):
     # resources['metadata'] = {'path': cwd}
     ep = ExecutePreprocessor(**jupyter_execute_kwargs)
     
-    # nbconvert removed kernel manager class at version 6.5.0
-    # - PS: kale 0.7.0 used nbconvert 5.6.1
-    # import KernelManager Class from jupyter_client library directly
-    #from jupyter_client import KernelManager
-    #km = KernelManager()
+    # nbconvert upgrade nbconvert 5.6.1 to 6.5.0 makes ZMQ coroutine exception
     km = ep.kernel_manager_class(kernel_name=kernel_name, config=ep.config)
-
-    kc = km.client()
-    kc.start_channels()
-    
     # start_kernel supports several additional arguments via **kw
     km.start_kernel(extra_arguments=ep.extra_arguments)
-    
+    kc = km.client()
+    kc.start_channels()
+ 
     try:
         kc.wait_for_ready(timeout=60)
     except RuntimeError:
