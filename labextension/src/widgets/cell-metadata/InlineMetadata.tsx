@@ -304,7 +304,8 @@ export class InlineMetadata extends React.Component<IProps, IState> {
           </div>
 
           <div
-            style={{ position: 'relative' }}
+            // style={{ position: 'relative' }}
+            style={{ position: 'absolute' }}
             className={this.state.showEditor ? ' hidden' : ''}
           >
             <button className="kale-editor-toggle" onClick={this.openEditor}>

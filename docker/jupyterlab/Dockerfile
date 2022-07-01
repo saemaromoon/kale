@@ -76,7 +76,7 @@ RUN pip3 install s3fs==2022.01.0
 
 # kale 빌드로 생긴 Pipeline 수행 시, coroutine 에러 발생
 # Bug in the Kale Jupyter Notebook Server Docker Image - Kale built pipeline execution fails · Issue #388 · kubeflow-kale/kale
-# jupyter-client(5.3.4 -> 7.3.4), nbconvert(5.6.1 -> 6.5.0) 버전 변경 kale/backend/setup.py
+# jupyter-client(5.3.4 -> 6.1.12), nbclient(0.5.5 -> 0.6.4), jinja2(2.11.3) 버전 변경 kale/backend/setup.py 
 
 ## Konlpy, Mecab을 돌리기 위한 Pip packages 추가 (from Eden)
 RUN pip3 install --upgrade "collection==0.1.6"

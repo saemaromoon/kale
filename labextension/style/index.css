@@ -381,7 +381,8 @@ a {
   cursor: pointer;
   position: absolute;
   z-index: 3;
-  right: 3px;
+  /* right: 3px; */
+  left: 10px;
   top: 3px;
   color: var(--jp-inverse-layout-color3);
 }
