@@ -56,10 +56,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
   display: flex;
 }
 
@@ -90,10 +94,14 @@
   font-size: var(--jp-ui-font-size1);
   overflow: auto;
   height: 100%;
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
   display: flex;
 }
 
@@ -382,24 +390,21 @@ a {
   position: absolute;
   z-index: 3;
   /* right: 3px; */
-  left: 10px;
+  left: 15px;
   top: 3px;
   color: var(--jp-inverse-layout-color3);
 }
 
-.kale-editor-toggle > svg {
+.kale-editor-toggle>svg {
   width: 100%;
   height: auto;
 }
 
-.kale-editor-toggle > svg {
+.kale-editor-toggle>svg {
   background-color: var(--jp-cell-editor-background);
 }
 
-.jp-Notebook.jp-mod-editMode
-  .jp-Cell.jp-mod-selected
-  .kale-editor-toggle
-  > svg {
+.jp-Notebook.jp-mod-editMode .jp-Cell.jp-mod-selected .kale-editor-toggle>svg {
   background-color: #fff;
 }
 
@@ -410,7 +415,7 @@ a {
   align-items: center;
 }
 
-.kale-cell-metadata-editor > .MuiFormControl-root {
+.kale-cell-metadata-editor>.MuiFormControl-root {
   margin-left: 4px;
   margin-right: 4px;
 }
@@ -431,11 +436,11 @@ a {
   margin-right: -11px;
 }
 
-.kale-metadata-editor-wrapper.opened .kale-editor-toggle > svg {
+.kale-metadata-editor-wrapper.opened .kale-editor-toggle>svg {
   background-color: #fff;
 }
 
-.kale-editor-toggle:hover > svg {
+.kale-editor-toggle:hover>svg {
   background-color: var(--jp-layout-color2);
 }
 
@@ -455,9 +460,7 @@ a {
   line-height: 18px;
 }
 
-.kale-metadata-editor-wrapper:not(.kale-is-step)
-  .kale-cell-metadata-editor
-  > div:first-child {
+.kale-metadata-editor-wrapper:not(.kale-is-step) .kale-cell-metadata-editor>div:first-child {
   width: 100%;
   border-right: none;
 }

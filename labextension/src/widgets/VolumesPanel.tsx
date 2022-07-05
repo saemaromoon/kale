@@ -191,17 +191,17 @@ export const VolumesPanel: React.FunctionComponent<VolumesPanelProps> = props =>
       props.volumes.map((item, key) => {
         return key === idx
           ? {
-              ...props.volumes[idx],
-              snapshot: !props.volumes[idx].snapshot,
-            }
+            ...props.volumes[idx],
+            snapshot: !props.volumes[idx].snapshot,
+          }
           : item;
       }),
       props.metadataVolumes.map((item, key) => {
         return key === idx
           ? {
-              ...props.metadataVolumes[idx],
-              snapshot: !props.metadataVolumes[idx].snapshot,
-            }
+            ...props.metadataVolumes[idx],
+            snapshot: !props.metadataVolumes[idx].snapshot,
+          }
           : item;
       }),
     );
@@ -392,20 +392,20 @@ export const VolumesPanel: React.FunctionComponent<VolumesPanelProps> = props =>
 
                 {v.annotations && v.annotations.length > 0
                   ? v.annotations.map((a, a_idx) => {
-                      return (
-                        <AnnotationInput
-                          key={`vol-${idx}-annotation-${a_idx}`}
-                          label={'Annotation'}
-                          volumeIdx={idx}
-                          annotationIdx={a_idx}
-                          updateValue={updateVolumeAnnotation}
-                          deleteValue={deleteAnnotation}
-                          annotation={a}
-                          cannotBeDeleted={v.type === 'snap' && a_idx === 0}
-                          rokAvailable={!props.rokError}
-                        />
-                      );
-                    })
+                    return (
+                      <AnnotationInput
+                        key={`vol-${idx}-annotation-${a_idx}`}
+                        label={'Annotation'}
+                        volumeIdx={idx}
+                        annotationIdx={a_idx}
+                        updateValue={updateVolumeAnnotation}
+                        deleteValue={deleteAnnotation}
+                        annotation={a}
+                        cannotBeDeleted={v.type === 'snap' && a_idx === 0}
+                        rokAvailable={!props.rokError}
+                      />
+                    );
+                  })
                   : null}
 
                 <div className="add-button" style={{ padding: 0 }}>
@@ -520,7 +520,7 @@ export const VolumesPanel: React.FunctionComponent<VolumesPanelProps> = props =>
           props.rokError
             ? rokErrorTooltip(props.rokError)
             : "Enable this option to mount clones of this notebook's volumes " +
-              'on your pipeline steps'
+            'on your pipeline steps'
         }
         placement="top-start"
         interactive={props.rokError ? true : false}
@@ -551,7 +551,7 @@ export const VolumesPanel: React.FunctionComponent<VolumesPanelProps> = props =>
           props.rokError
             ? rokErrorTooltip(props.rokError)
             : 'Enable this option to take Rok snapshots of your steps during ' +
-              'pipeline execution'
+            'pipeline execution'
         }
         placement="top-start"
         interactive={props.rokError ? true : false}
@@ -597,8 +597,8 @@ export const VolumesPanel: React.FunctionComponent<VolumesPanelProps> = props =>
 
   return (
     <React.Fragment>
-      {useNotebookVolumesSwitch}
-      {autoSnapshotSwitch}
+      {/* {useNotebookVolumesSwitch}
+      {autoSnapshotSwitch} */}
       {!props.useNotebookVolumes && volumesClassNameAndMode}
       {props.notebookMountPoints.length > 0 && props.useNotebookVolumes
         ? null

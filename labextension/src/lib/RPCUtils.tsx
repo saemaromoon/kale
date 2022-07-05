@@ -118,22 +118,32 @@ export const executeRpc = async (
     output =
       env instanceof NotebookPanel
         ? await NotebookUtils.sendKernelRequestFromNotebook(
-            env,
-            cmd,
-            expressions,
-          )
+          env,
+          cmd,
+          expressions,
+        )
         : await NotebookUtils.sendKernelRequest(env, cmd, expressions);
-  } catch  (e: unknown) {
-    if (e instanceof Error) {  
-      console.warn(e);
-      const error = {
-        rpc: `${func}`,
-        status: `${e.name}: ${e.message}`,
-        output: e.stack,
-      };
-      throw new KernelError(error);
-    }
   }
+  catch (e) {
+    console.warn(e);
+    const error = {
+      rpc: `${func}`,
+      status: `${e.ename}: ${e.evalue}`,
+      output: e.traceback,
+    };
+    throw new KernelError(error);
+  }
+  // } catch  (e: unknown) {
+  //   if (e instanceof Error) {  
+  //     console.warn(e);
+  //     const error = {
+  //       rpc: `${func}`,
+  //       status: `${e.name}: ${e.message}`,
+  //       output: e.stack,
+  //     };
+  //     throw new KernelError(error);
+  //   }
+  // }
 
   // const argsAsStr = Object.keys(kwargs).map(key => `${key}=${kwargs[key]}`).join(', ');
   let msg = [`RPC: ${func}`];
