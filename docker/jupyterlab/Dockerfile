@@ -55,9 +55,9 @@ RUN pip3 install --upgrade pip && \
     # XXX: Install enum34==1.1.8 because other versions lead to errors during
     #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
-    #pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
+    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
     # Upgrade JupyterLab version to v3
-    pip3 install --upgrade "jupyterlab>=3.1.6,<4.0.0"
+    # pip3 install --upgrade "jupyterlab>=3.1.6,<4.0.0"
 RUN pip3 install --upgrade "kfp==1.8.2" 
    
 # Pip packages 
