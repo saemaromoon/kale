@@ -71,6 +71,7 @@ RUN pip3 install --upgrade "pyarrow==7.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
 
+RUN apt-get update
 RUN pip3 install --upgrade "botocore==1.27.24"
 RUN pip3 install --upgrade "boto3==1.24.24"
 RUN pip3 install --upgrade "s3fs==2022.5.0"
