@@ -70,9 +70,12 @@ RUN pip3 install --upgrade "scikit-learn==1.0.2"
 RUN pip3 install --upgrade "pyarrow==7.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
- 
-RUN pip3 install --upgrade --user awscli==1.22.3
-RUN pip3 install s3fs==2022.01.0
+
+RUN pip3 install --upgrade --user "botocore-1.27.24"
+RUN pip3 install --upgrade --user "boto3==1.24.24"
+RUN pip3 install --upgrade --user "s3fs==2022.5.0"
+RUN pip3 install --upgrade --user "s3transfer==0.6.0"
+RUN pip3 install --upgrade --user "awscli==1.25.24" 
 
 # kale 빌드로 생긴 Pipeline 수행 시, coroutine 에러 발생
 # Bug in the Kale Jupyter Notebook Server Docker Image - Kale built pipeline execution fails · Issue #388 · kubeflow-kale/kale
