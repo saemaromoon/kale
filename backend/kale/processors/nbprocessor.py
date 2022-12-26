@@ -630,6 +630,26 @@ class NotebookProcessor(BaseProcessor):
         for step in self.pipeline.steps:
             # detect the INS dependencies of the CURRENT node------------------
             step_source = '\n'.join(step.source)
+
+        # put some source code preprocessing step before ast parsing
+            import logging
+            logger = logging.getLogger()
+            logger.setLevel(logging.INFO)
+
+            formatter = logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+            stream_handler = logging.StreamHandler()
+            stream_handler.setFormatter(formatter)
+            logger.addHandler(stream_handler)
+
+            lines_filtered = []
+            for line in step.source:
+                if (line.startswith('%%') == False):
+                    lines_filtered.append(line)
+            step_source = '\n'.join(lines_filtered)
+            logger.info(step_source)
+
             # get the variables that this step is missing and the pipeline
             # parameters that it actually needs.
             ins, parameters = self._detect_in_dependencies(
