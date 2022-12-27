@@ -67,7 +67,7 @@ RUN pip3 install --upgrade "seaborn==0.11.2"
 RUN pip3 install --upgrade "numpy==1.21.5"
 RUN pip3 install --upgrade "pandas==1.3.5"
 RUN pip3 install --upgrade "scikit-learn==1.0.2" 
-RUN pip3 install --upgrade "pyarrow==7.0.0"
+RUN pip3 install --upgrade "pyarrow==8.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
 
