@@ -644,9 +644,22 @@ class NotebookProcessor(BaseProcessor):
             logger.addHandler(stream_handler)
 
             lines_filtered = []
-            for line in step.source:
-                if (line.startswith('%%') == False):
-                    lines_filtered.append(line)
+            for code_block in step.source:
+                if (code_block.startswith('%%') == False):
+                    lines_filtered.append(code_block)
+                else:
+                    logger.info("Detected notebook magic keyword cell\n" + code_block) 
+
+                    modified_source = ''
+                    line_parsed = code_block.split('\n')
+                    for line in line_parsed:
+                        if (line.startswith('%%') == False):
+                            modified_source += line + '\n'
+                    # code_block.source[-1] = modified_source
+                    modified_source = modified_source[:-1]
+                    lines_filtered.append(modified_source)
+
+
             step_source = '\n'.join(lines_filtered)
             logger.info(step_source)
 
