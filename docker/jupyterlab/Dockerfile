@@ -88,6 +88,16 @@ RUN pip3 install --upgrade "JPype1==1.3.0"
 RUN pip3 install --upgrade "konlpy==0.6.0"
 RUN pip3 install --upgrade "tqdm==4.62.3" 
 
+## Biglab request 220118
+RUN pip3 install --upgrade pymysql==1.0.2 sqlalchemy==1.4.46 cryptocode==0.1 pyproj==3.4.1 
+RUN pip3 install --upgrade geopandas==0.12.2 gspread==5.7.2 oauth2client==4.1.3 ipynb==0.5.1
+RUN pip3 install --upgrade keras-bert==0.89.0 keras-radam==0.15.0 networkx==2.8.8 
+RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10  
+
+## Korean font setting
+RUN apt-get install fonts-nanum*
+RUN sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' /usr/local/lib/python3.8/site-packages/matplotlib/mpl-data/matplotlibrc
+
 # Install JVM for Konlpy
 RUN apt-get install -y \
     openjdk-8-jdk wget curl git python3-dev \
