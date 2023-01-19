@@ -24,6 +24,9 @@ RUN  dpkg -i cuda-keyring_1.0-1_all.deb
 RUN sed -i '/developer\.download\.nvidia\.com\/compute\/cuda\/repos/d' /etc/apt/sources.list
 RUN rm /etc/apt/sources.list.d/cuda*.list
 RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+
+# repository public key updated 2023.01.19
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05 
   
 # Install basic dependencies
 RUN apt-get update && \
@@ -33,8 +36,6 @@ RUN apt-get update && \
         python3-pip python3-wheel && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FEEA9169307EA071
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B57C5C2836F4BEB
 
 RUN apt-get update
 RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
