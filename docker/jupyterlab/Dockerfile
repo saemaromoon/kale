@@ -14,7 +14,7 @@
 
 # Use tensorflow-2.1.0 as a base image, allowing the user to
 # speficy if they want GPU support, by setting IMAGE_TYPE to "gpu". 
-FROM jupyter/scipy-notebook:python-3.9.12
+FROM jupyter/tensorflow-notebook:python-3.9.12
 USER root
 
 # GPU Cuda repository public key updated 2022.04.27
