@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y curl gnupg
 RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 RUN curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
 RUN curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
-RUN apt-get update && apt-get install -y nvidia-container-toolkit
+RUN apt-get update && apt-get install -y nvidia-docker2
 
 # # GPU Cuda repository public key updated 2022.04.27
 # RUN apt-key del 7fa2af80
