@@ -98,9 +98,9 @@ RUN pip3 install --upgrade keras-bert==0.89.0 keras-radam==0.15.0 networkx==2.8.
 RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10  
 
 ## Korean font setting
-RUN matloc=$(pip3 show matplotlib | grep Location | sed "s/ //g"| sed -r 's/[:]+/=/g' | awk -F= '{a[$1]=$2} END {print(a["Location"])}' 2>&1)
 RUN apt-get install fonts-nanum*
-RUN sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' $matloc/matplotlib/mpl-data/matplotlibrc
+RUN matloc=$(pip3 show matplotlib | grep Location | sed "s/ //g"| sed -r 's/[:]+/=/g' | awk -F= '{a[$1]=$2} END {print(a["Location"])}' 2>&1) \
+        && sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' $matloc/matplotlib/mpl-data/matplotlibrc
 
 # Install JVM for Konlpy
 RUN apt-get install -y \
