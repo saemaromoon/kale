@@ -17,16 +17,21 @@
 FROM jupyter/tensorflow-notebook:python-3.9.12
 USER root
 
-# GPU Cuda repository public key updated 2022.04.27
-RUN apt-key del 7fa2af80
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
-RUN  dpkg -i cuda-keyring_1.0-1_all.deb
-RUN sed -i '/developer\.download\.nvidia\.com\/compute\/cuda\/repos/d' /etc/apt/sources.list
-RUN rm /etc/apt/sources.list.d/cuda*.list
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+RUN curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
+RUN curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
+RUN apt-get update && apt-get install -y nvidia-container-toolkit
 
-# repository public key updated 2023.01.19
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05 
+# # GPU Cuda repository public key updated 2022.04.27
+# RUN apt-key del 7fa2af80
+# RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+# RUN  dpkg -i cuda-keyring_1.0-1_all.deb
+# RUN sed -i '/developer\.download\.nvidia\.com\/compute\/cuda\/repos/d' /etc/apt/sources.list
+# RUN rm /etc/apt/sources.list.d/cuda*.list
+# RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+
+# # repository public key updated 2023.01.19
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05 
   
 # Install basic dependencies
 RUN apt-get update && \
@@ -72,6 +77,7 @@ RUN pip3 install --upgrade "pyarrow==8.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
 RUN pip3 install --upgrade "tensorflow==2.11.0"
+RUN pip3 install --upgrade "protobuf==3.19.6"
 
 RUN apt-get update
 RUN pip3 install --upgrade "botocore==1.27.24"
