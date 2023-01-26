@@ -10,10 +10,7 @@
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
-#  limitations under the License.
-
-# Use tensorflow-2.1.0 as a base image, allowing the user to
-# speficy if they want GPU support, by setting IMAGE_TYPE to "gpu". 
+#  limitations under the License. 
 FROM jupyter/tensorflow-notebook:python-3.9.12
 USER root
 
@@ -71,6 +68,7 @@ RUN pip3 install --upgrade "scikit-learn==1.0.2"
 RUN pip3 install --upgrade "pyarrow==8.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
+RUN pip3 install --upgrade "ray[air]==2.2.0"
 RUN pip3 install --upgrade "tensorflow==2.11.0"
 RUN pip3 install --upgrade "protobuf==3.19.6"
 
