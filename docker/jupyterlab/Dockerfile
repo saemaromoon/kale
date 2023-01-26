@@ -17,6 +17,8 @@
 FROM jupyter/tensorflow-notebook:python-3.9.12
 USER root
 
+# CUDA Installation guide
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installation-guide
 RUN apt-get update && apt-get install -y curl gnupg
 RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
       && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
@@ -26,26 +28,14 @@ RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
 
 RUN apt-get update
 RUN apt-get install -y nvidia-docker2
-
-# # GPU Cuda repository public key updated 2022.04.27
-# RUN apt-key del 7fa2af80
-# RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
-# RUN  dpkg -i cuda-keyring_1.0-1_all.deb
-# RUN sed -i '/developer\.download\.nvidia\.com\/compute\/cuda\/repos/d' /etc/apt/sources.list
-# RUN rm /etc/apt/sources.list.d/cuda*.list
-# RUN rm /etc/apt/sources.list.d/nvidia-ml.list
-
-# # repository public key updated 2023.01.19
-# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05 
-  
+ 
 # Install basic dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates bash-completion tar less \ 
         python-setuptools build-essential python-dev \
         python3-pip python3-wheel && \
-    rm -rf /var/lib/apt/lists/*
-
+    rm -rf /var/lib/apt/lists/* 
 
 RUN apt-get update
 RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
@@ -109,7 +99,8 @@ RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10
 
 ## Korean font setting
 RUN apt-get install fonts-nanum*
-RUN sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' /usr/local/lib/python3.8/site-packages/matplotlib/mpl-data/matplotlibrc
+RUN matloc=$(pip3 show matplotlib | grep Location | sed "s/ //g"| sed -r 's/[:]+/=/g' | awk -F= '{a[$1]=$2} END {print(a["Location"])}' 2>&1)
+RUN sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' $matloc/matplotlib/mpl-data/matplotlibrc
 
 # Install JVM for Konlpy
 RUN apt-get install -y \
