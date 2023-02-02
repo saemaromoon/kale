@@ -167,7 +167,7 @@ def auto_generated_pipeline({%- for arg in pipeline.pps_names -%}
                     match_expressions=[V1NodeSelectorRequirement(
                         key='alpha.eksctl.io/nodegroup-name',
                         operator='In', 
-                        values=['ng-memory-5-spark', 'ng-nvidia-gpu'])])])))
+                        values=['ng-memory-5-spark', 'ng-nvidia-gpu-taint'])])])))
     _kale_{{ step.name }}_task.add_affinity(affinity)
 
     {# Limit resource request size for all #}
