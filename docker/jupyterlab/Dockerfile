@@ -27,6 +27,11 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "dash dash/sh boolean false" | debconf-set-selections && \
     dpkg-reconfigure -p critical dash
 
+# change apt repo to Korean server
+RUN cd /etc/apt && \
+    sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list && \
+    sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list.d/proposed.list
+
 RUN apt-get update
 RUN apt-get install sudo 
 RUN apt-get install -y vim
