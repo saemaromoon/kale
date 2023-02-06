@@ -21,6 +21,12 @@ USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+# change default RUN commands to /bin/bash in container
+SHELL ["/bin/bash", "-c"] 
+# change /bin/sh to point bash from dash
+RUN echo "dash dash/sh boolean false" | debconf-set-selections && \
+    dpkg-reconfigure -p critical dash
+
 RUN apt-get update
 RUN apt-get install sudo 
 RUN apt-get install -y vim
@@ -41,10 +47,8 @@ RUN make altinstall
 
 # python3.9 to python3
 # pip3.9 to pip3
-RUN ln -sf /usr/local/bin/python3.9 /usr/bin/python3
-RUN ln -sf /usr/local/bin/pip3.9 /usr/bin/pip3
-
-
+RUN ln -sfn /usr/local/bin/python3.9 /usr/bin/python3
+RUN ln -sfn /usr/local/bin/pip3.9 /usr/bin/pip3
 #------------------------------------
 # Install basic dependencies
 #------------------------------------
@@ -134,11 +138,6 @@ RUN locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8
 
 # Add Mecab-Ko
-# change default RUN commands to /bin/bash in container
-SHELL ["/bin/bash", "-c"] 
-# change /bin/sh to point bash from dash
-RUN echo "dash dash/sh boolean false" | debconf-set-selections && \
-    dpkg-reconfigure -p critical dash
 RUN bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
 
 #------------------------------------
