@@ -29,8 +29,8 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections && \
 
 # change apt repo to Korean server
 RUN cd /etc/apt && \
-    sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list && \
-    sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list.d/proposed.list
+    sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list
+# sed -i 's/archive.ubuntu.com/ftp.kaist.ac.kr/g' sources.list.d/proposed.list
 
 RUN apt-get update
 RUN apt-get install sudo 
