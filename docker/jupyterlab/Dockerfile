@@ -181,6 +181,7 @@ RUN jlpm install && \
 
 RUN jupyter lab build --dev-build=False
 
+RUN useradd jovyan
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
 USER jovyan
