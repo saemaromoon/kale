@@ -30,9 +30,10 @@ RUN apt-get install -y vim
 #------------------------------------
 RUN apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
 
+WORKDIR /
 RUN wget https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz
 RUN tar -xf Python-3.9.12.tgz
-RUN cd Python-3.9.12
+WORKDIR /Python-3.9.12
 # RUN ./configure --enable-optimizations
 RUN ./configure
 RUN make -j 12
