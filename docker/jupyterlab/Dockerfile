@@ -11,54 +11,66 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License. 
-FROM jupyter/tensorflow-notebook:python-3.9.12
-USER root
 
-# CUDA Installation guide
-# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installation-guide
-RUN apt-get update && apt-get install -y curl gnupg
-RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-    && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-    && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list 
+#------------------------------------
+# Tensorflow compatabile cudnn8 and cuda11.2
+#------------------------------------
+FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+
+USER root  
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
-RUN apt-get install -y nvidia-docker2
+RUN apt-get install sudo 
+RUN apt-get install -y vim
 
+#------------------------------------
+# Install Python 3.9.12 from source
+#------------------------------------
+RUN apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+
+RUN wget https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz
+RUN tar -xf Python-3.9.12.tgz
+RUN cd Python-3.9.12
+# RUN ./configure --enable-optimizations
+RUN ./configure
+RUN make -j 12
+RUN make altinstall
+
+# python3.9 to python3
+# pip3.9 to pip3
+RUN ln -sf /usr/local/bin/python3.9 /usr/bin/python3
+RUN ln -sf /usr/local/bin/pip3.9 /usr/bin/pip3
+
+
+#------------------------------------
 # Install basic dependencies
+#------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    ca-certificates bash-completion tar less \ 
-    python-setuptools build-essential python-dev \
-    python3-pip python3-wheel && \
-    rm -rf /var/lib/apt/lists/* 
-
-RUN apt-get update
-RUN apt-get -y install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
-
-RUN apt-get -y install python3-pip
-RUN apt-get -y install software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get update 
-RUN python3 -m pip install pip --upgrade
+    ca-certificates bash-completion tar less 
 
 ENV SHELL /bin/bash
 COPY bashrc /etc/bash.bashrc
 RUN echo "set background=dark" >> /etc/vim/vimrc.local
 
-# Install latest KFP SDK
+
+#------------------------------------
+# pip package install
+#------------------------------------
 RUN pip3 freeze
 RUN pip3 install --upgrade pip && \
     # XXX: Install enum34==1.1.8 because other versions lead to errors during
-    #  KFP installation
     pip3 install --upgrade "enum34==1.1.8" && \
     pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
 # Upgrade JupyterLab version to v3
 # pip3 install --upgrade "jupyterlab>=3.1.6,<4.0.0"
+
+#  KFP installation
 RUN pip3 install --upgrade "kfp==1.8.2" 
 
-# Pip packages 
+# Data science packages
 RUN pip3 install --upgrade "matplotlib==3.5.1" 
 RUN pip3 install --upgrade "seaborn==0.11.2" 
 
@@ -68,11 +80,17 @@ RUN pip3 install --upgrade "scikit-learn==1.0.2"
 RUN pip3 install --upgrade "pyarrow==8.0.0"
 RUN pip3 install --upgrade "xgboost==1.5.2"
 RUN pip3 install --upgrade "statsmodels==0.13.2"
+
+# ray dependency
 RUN pip3 install --upgrade "ray[air]==2.2.0"
-RUN pip3 install --upgrade "tensorflow==2.11.0"
 RUN pip3 install --upgrade "protobuf==3.19.6"
 
-RUN apt-get update
+RUN pip3 install --upgrade "tensorflow==2.11.0"
+# Install TensorRT
+# with nvidia-cublas-cu11, nvidia-cuda-runtime-cu11, nvidia-cudnn-cu11
+RUN pip3 install --upgrade "tensorrt==8.5.3.1"
+
+# AWS dependency
 RUN pip3 install --upgrade "botocore==1.27.24"
 RUN pip3 install --upgrade "boto3==1.24.24"
 RUN pip3 install --upgrade "s3fs==2022.5.0"
@@ -89,18 +107,24 @@ RUN pip3 install --upgrade "JPype1==1.3.0"
 RUN pip3 install --upgrade "konlpy==0.6.0"
 RUN pip3 install --upgrade "tqdm==4.62.3" 
 
-## Biglab request 220118
+## Biglab request 230118
 RUN pip3 install --upgrade pymysql==1.0.2 sqlalchemy==1.4.46 cryptocode==0.1 pyproj==3.4.1 
 RUN pip3 install --upgrade geopandas==0.12.2 gspread==5.7.2 oauth2client==4.1.3 ipynb==0.5.1
 RUN pip3 install --upgrade keras-bert==0.89.0 keras-radam==0.15.0 networkx==2.8.8 
 RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10  
 
+
+#------------------------------------
 ## Korean font setting
+#------------------------------------
 RUN apt-get install fonts-nanum*
 RUN matloc=$(pip3 show matplotlib | grep Location | sed "s/ //g"| sed -r 's/[:]+/=/g' | awk -F= '{a[$1]=$2} END {print(a["Location"])}' 2>&1) \
     && sed -i 's/#font.family:  sans-serif/font.family: NanumGothic/g' $matloc/matplotlib/mpl-data/matplotlibrc
 
+
+#------------------------------------
 # Install JVM for Konlpy
+#------------------------------------
 RUN apt-get install -y \
     openjdk-8-jdk wget curl git python3-dev \
     language-pack-ko
@@ -111,13 +135,23 @@ RUN locale-gen en_US.UTF-8 && \
 # Add Mecab-Ko
 RUN bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
 
+#------------------------------------
 # Install Kubectl
+#------------------------------------
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl 
+
+#------------------------------------
+# Install Node.js lts for 16.x
+#------------------------------------
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
+    apt-get install -y nodejs
 
 ARG DISABLE_CACHE
 
-# Install Kale from KALE_BRANCH (defaults to "sean")
+#------------------------------------
+# Install Kale from git repo
+#------------------------------------
 ARG KALE_BRANCH="sean"
 WORKDIR /
 RUN git clone -b ${KALE_BRANCH} https://github.com/saemaromoon/kale
