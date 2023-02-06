@@ -48,7 +48,7 @@ RUN make altinstall
 # python3.9 to python3
 # pip3.9 to pip3
 # RUN ln -sfn /usr/local/bin/python3.9 /usr/bin/python3
-# RUN ln -sfn /usr/local/bin/pip3.9 /usr/bin/pip3
+RUN ln -sfn /usr/local/bin/pip3.9 /usr/bin/pip3
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 1
 RUN update-alternatives --config python3
 #------------------------------------
