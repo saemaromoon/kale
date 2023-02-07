@@ -15,7 +15,7 @@
 #------------------------------------
 # Tensorflow compatabile cudnn8 and cuda11.2
 #------------------------------------
-FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+FROM rayproject/ray-ml:2.2.0-py39-gpu
 
 USER root  
 
@@ -39,23 +39,23 @@ RUN apt-get install -y vim
 #------------------------------------
 # Install Python 3.9.12 from source
 #------------------------------------
-RUN apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+# RUN apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
 
-WORKDIR /
-RUN wget https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz
-RUN tar -xf Python-3.9.12.tgz
-WORKDIR /Python-3.9.12
-# RUN ./configure --enable-optimizations
-RUN ./configure
-RUN make -j 12
-RUN make altinstall
+# WORKDIR /
+# RUN wget https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz
+# RUN tar -xf Python-3.9.12.tgz
+# WORKDIR /Python-3.9.12
+# # RUN ./configure --enable-optimizations
+# RUN ./configure
+# RUN make -j 12
+# RUN make altinstall
 
 # python3.9 to python3
 # pip3.9 to pip3
-RUN ln -sfn /usr/local/bin/python3.9 /usr/bin/python3
-RUN ln -sfn /usr/local/bin/pip3.9 /usr/bin/pip3
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 1
-RUN update-alternatives --config python3
+# RUN ln -sfn /usr/local/bin/python3.9 /usr/bin/python3
+# RUN ln -sfn /usr/local/bin/pip3.9 /usr/bin/pip3
+# RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 1
+# RUN update-alternatives --config python3
 #------------------------------------
 # Install basic dependencies
 #------------------------------------
@@ -101,6 +101,7 @@ RUN pip3 install --upgrade "tensorflow==2.11.0"
 # Install TensorRT
 # with nvidia-cublas-cu11, nvidia-cuda-runtime-cu11, nvidia-cudnn-cu11
 RUN pip3 install --upgrade "tensorrt==8.5.3.1"
+RUN pip3 install --upgrade  "nvidia-tensorrt==99.0.0"
 
 # AWS dependency
 RUN pip3 install --upgrade "botocore==1.27.24"

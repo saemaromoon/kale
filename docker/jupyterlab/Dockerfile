@@ -101,6 +101,7 @@ RUN pip3 install --upgrade "tensorflow==2.11.0"
 # Install TensorRT
 # with nvidia-cublas-cu11, nvidia-cuda-runtime-cu11, nvidia-cudnn-cu11
 RUN pip3 install --upgrade "tensorrt==8.5.3.1"
+RUN pip3 install --upgrade  "nvidia-tensorrt==99.0.0"
 
 # AWS dependency
 RUN pip3 install --upgrade "botocore==1.27.24"
