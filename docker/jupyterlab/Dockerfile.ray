@@ -185,6 +185,8 @@ RUN jupyter lab build --dev-build=False
 RUN useradd jovyan
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
+RUN chmod -R 777 /home/jovyan
+ENV HOME /home/jovyan
 USER jovyan
 
 COPY config.sh /etc/config.sh
