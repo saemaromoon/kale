@@ -126,6 +126,9 @@ RUN pip3 install --upgrade geopandas==0.12.2 gspread==5.7.2 oauth2client==4.1.3 
 RUN pip3 install --upgrade keras-bert==0.89.0 keras-radam==0.15.0 networkx==2.8.8 
 RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10  
 
+## Pytorch 
+RUN pip3 install --upgrade torchsummary==1.5.1
+RUN pip3 install --upgrade deepspeed==0.8.1
 
 #------------------------------------
 ## Korean font setting
@@ -187,6 +190,7 @@ RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
 RUN chmod -R 777 /home/jovyan
 ENV HOME /home/jovyan
+ENV PATH="$PATH:/etc/profile:$HOME/bin:$HOME/.local/bin:$PATH"
 USER jovyan
 
 COPY config.sh /etc/config.sh
