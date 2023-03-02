@@ -190,8 +190,8 @@ RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
 RUN chmod -R 777 /home/jovyan
 ENV HOME /home/jovyan
-ENV PATH="$PATH:/etc/profile:$HOME/bin:$HOME/.local/bin:$PATH"
 USER jovyan
+ENV PATH="$PATH:/etc/profile:$HOME/bin:$HOME/.local/bin:$PATH"
 
 COPY config.sh /etc/config.sh
 
