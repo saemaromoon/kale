@@ -17,7 +17,7 @@
 #------------------------------------
 FROM rayproject/ray-ml:2.2.0-py39-gpu
 
-USER root  
+USER ray  
 
 ARG DEBIAN_FRONTEND=noninteractive
 
