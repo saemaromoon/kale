@@ -17,8 +17,36 @@ import kfp
 from kale.common import kfputils
 
 
-def _get_client(host=None):
-    return kfp.Client()
+def _get_client(host=None): 
+    import requests
+ 
+    KUBEFLOW_ENDPOINT = "http://istio-ingressgateway.istio-system.svc.cluster.local"
+    KUBEFLOW_USERNAME = "de@zigbang.com"
+    KUBEFLOW_PASSWORD = "zigbang1234"
+
+    def get_session_token(host, username, password): 
+        session = requests.Session()
+        response = session.get(host)
+
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+
+        data = {"login": username, "password": password}
+        session.post(response.url, headers=headers, data=data)
+        print(session.cookies.get_dict()) 
+        session_cookie = session.cookies.get_dict()["authservice_session"]
+
+        return session_cookie
+
+    auth_session = get_session_token(
+        host = KUBEFLOW_ENDPOINT,
+        username=KUBEFLOW_USERNAME,
+        password=KUBEFLOW_PASSWORD
+    )
+
+    return kfp.Client(host=f"{KUBEFLOW_ENDPOINT}/pipeline", cookies=f"authservice_session={auth_session}")
+    # return kfp.Client()
 
 
 def list_experiments(request):
