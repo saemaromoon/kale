@@ -128,6 +128,10 @@ RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10
 RUN pip3 install --upgrade pyhive==0.6.5  
 
 
+## Pytorch 
+RUN pip3 install --upgrade torchsummary==1.5.1
+RUN pip3 install --upgrade deepspeed==0.8.1
+
 #------------------------------------
 ## Korean font setting
 #------------------------------------
