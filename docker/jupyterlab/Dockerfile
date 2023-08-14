@@ -15,7 +15,8 @@
 #------------------------------------
 # Tensorflow compatabile cudnn8 and cuda11.2
 #------------------------------------
-FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+# FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+FROM tensorflow/tensorflow:2.11.0-gpu-jupyter
 
 USER root  
 
