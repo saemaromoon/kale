@@ -150,6 +150,7 @@ RUN apt-get install -y \
     python3-pip 
 
 RUN pip3 install --upgrade "setuptools==61.2.0" "wheel==0.37.1"  
+RUN pip3 install --upgrade "pip==23.0.1"
 RUN pip3 install --upgrade "konlpy==0.6.0"
 
 RUN locale-gen en_US.UTF-8 && \
