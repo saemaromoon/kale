@@ -118,7 +118,6 @@ RUN pip3 install --upgrade "awscli==1.25.24"
 ## Konlpy, Mecab을 돌리기 위한 Pip packages 추가 (from Eden)
 RUN pip3 install --upgrade "collection==0.1.6"
 RUN pip3 install --upgrade "JPype1==1.3.0"
-RUN pip3 install --upgrade "konlpy==0.6.0"
 RUN pip3 install --upgrade "tqdm==4.62.3" 
 
 ## Biglab request 230118
@@ -145,10 +144,12 @@ RUN matloc=$(pip3 show matplotlib | grep Location | sed "s/ //g"| sed -r 's/[:]+
 # Install JVM for Konlpy
 #------------------------------------
 RUN apt-get install -y \
-    openjdk-8-jdk wget curl git \
+    g++  openjdk-8-jdk wget curl git \
     language-pack-ko \ 
     python3-dev \
     python3-pip
+
+RUN pip3 install --upgrade "konlpy==0.6.0"
 
 RUN locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8
