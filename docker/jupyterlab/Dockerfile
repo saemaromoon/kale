@@ -147,9 +147,9 @@ RUN apt-get install -y \
     g++  openjdk-8-jdk wget curl git \
     language-pack-ko \ 
     python3-dev \
-    python3-pip\
-    setuptools wheel
+    python3-pip 
 
+RUN pip3 install --upgrade "setuptools" "wheel"  
 RUN pip3 install --upgrade "konlpy==0.6.0"
 
 RUN locale-gen en_US.UTF-8 && \
