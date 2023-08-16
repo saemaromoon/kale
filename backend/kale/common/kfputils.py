@@ -24,7 +24,7 @@ from shutil import copyfile
 from typing import Tuple, Any
 from functools import lru_cache
 
-from kfp import Client
+import kfp
 from kfp.compiler import Compiler
 
 from kale.common import utils, podutils, workflowutils
@@ -44,8 +44,36 @@ _logger = None
 log = logging.getLogger(__name__)
 
 
-def _get_kfp_client(host=None, namespace: str = "kubeflow"):
-    return Client(host=host, namespace=namespace)
+def _get_kfp_client(host=None, namespace: str = "kubeflow"): 
+    import requests
+ 
+    KUBEFLOW_ENDPOINT = "http://istio-ingressgateway.istio-system.svc.cluster.local"
+    KUBEFLOW_USERNAME = "de@zigbang.com"
+    KUBEFLOW_PASSWORD = "zigbang1234"
+
+    def get_session_token(host, username, password): 
+        session = requests.Session()
+        response = session.get(host)
+
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+
+        data = {"login": username, "password": password}
+        session.post(response.url, headers=headers, data=data)
+        print(session.cookies.get_dict()) 
+        session_cookie = session.cookies.get_dict()["authservice_session"]
+
+        return session_cookie
+
+    auth_session = get_session_token(
+        host = KUBEFLOW_ENDPOINT,
+        username=KUBEFLOW_USERNAME,
+        password=KUBEFLOW_PASSWORD
+    )
+
+    return kfp.Client(host=f"{KUBEFLOW_ENDPOINT}/pipeline", cookies=f"authservice_session={auth_session}", namespace=namespace)
+    # return kfp.Client(host=host, namespace=namespace)
 
 
 def get_pipeline_id(pipeline_name: str, host: str = None) -> str:
