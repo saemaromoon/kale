@@ -11,7 +11,8 @@ class GithubImportState(IntEnum):
     FILE = auto()
 
 class GithubImportFinder:
-    def __init__(self, token):
+    def __init__(self, gitid, token):
+        self.gitid = gitid
         self.token = token
         
     def find_spec(self, modname, path=None, mod=None): 
@@ -45,14 +46,15 @@ class GithubImportFinder:
                            join(user, repo, "master", module + ".py"))
             return ModuleSpec(
                 modname,
-                GithubImportLoader(self.token),
+                GithubImportLoader(self.gitid, self.token),
                 origin=path,
                 loader_state=GithubImportState.FILE)
 
 class GithubImportLoader:
-    def __init__(self, token=''):
+    def __init__(self, gitid = '', token=''):
         self.token = token
-    
+        self.gitid = gitid
+
     def create_module(self, spec):
         return None  # default semantics
 
@@ -64,7 +66,7 @@ class GithubImportLoader:
         if module.__spec__.loader_state == GithubImportState.FILE:
             # load the module
             print(path) 
-            code = get(path, auth=('saemaromoon', self.token))
+            code = get(path, auth=(self.gitid, self.token))
             if code.status_code != 200:
                 print(path, code)
                 raise ModuleNotFoundError(f"No module named {module.__name__}")
