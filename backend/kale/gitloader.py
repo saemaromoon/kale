@@ -11,7 +11,7 @@ class GithubImportState(IntEnum):
     FILE = auto()
 
 class GithubImportFinder:
-    def __init__(self, gitid, token):
+    def __init__(self, gitid='', token=''):
         self.gitid = gitid
         self.token = token
         
@@ -21,6 +21,7 @@ class GithubImportFinder:
         if not "zigbang" in modname:
             return None
         modname = modname.replace("big_data_research", "big-data-research")
+        modname = modname.replace("big_data_research_public", "big-data-research-public")
         # print(modname)
         if not dot:
             spec = ModuleSpec(
