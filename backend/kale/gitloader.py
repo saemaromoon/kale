@@ -20,8 +20,8 @@ class GithubImportFinder:
 #         print(f"info {modname}, {package}, {dot}, {module}") 
         if not "zigbang" in modname:
             return None
-        modname = modname.replace("big_data_research", "big-data-research")
         modname = modname.replace("big_data_research_public", "big-data-research-public")
+        modname = modname.replace("big_data_research", "big-data-research")
         # print(modname)
         if not dot:
             spec = ModuleSpec(
