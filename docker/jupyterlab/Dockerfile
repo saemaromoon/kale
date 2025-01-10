@@ -91,7 +91,8 @@ RUN pip3 install --upgrade "numpy==1.21.5"
 RUN pip3 install --upgrade "pandas==1.5.2"
 RUN pip3 install --upgrade "scikit-learn==1.0.2" 
 RUN pip3 install --upgrade "pyarrow==8.0.0"
-RUN pip3 install --upgrade "xgboost==1.5.2"
+RUN pip3 install --upgrade "xgboost==2.1.3"
+RUN pip3 install --upgrade "shap==0.46.0" 
 RUN pip3 install --upgrade "statsmodels==0.13.2"
 
 # ray dependency
@@ -125,8 +126,7 @@ RUN pip3 install --upgrade pymysql==1.0.2 sqlalchemy==1.4.46 cryptocode==0.1 pyp
 RUN pip3 install --upgrade geopandas==0.12.2 gspread==5.7.2 oauth2client==4.1.3 ipynb==0.5.1
 RUN pip3 install --upgrade keras-bert==0.89.0 keras-radam==0.15.0 networkx==2.8.8 
 RUN pip3 install --upgrade python-dotenv==0.21.0 openpyxl==3.0.10  
-RUN pip3 install --upgrade pyhive==0.6.5  
-
+RUN pip3 install --upgrade pyhive==0.7.0
 
 ## Pytorch 
 RUN pip3 install --upgrade torchsummary==1.5.1
@@ -191,6 +191,11 @@ RUN jlpm install && \
     jupyter labextension install .
 
 RUN jupyter lab build --dev-build=False
+
+# /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings
+# 넣어야 하지만, /home/jovyan 하위가 pvc mount로 덮어짐
+# pvc에 tracker.jupyterlab-settings남기는것도 가능..
+# COPY tracker.jupyterlab-settings /etc/tracker.jupyterlab-settings
 
 RUN useradd jovyan
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
